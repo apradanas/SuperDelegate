@@ -44,22 +44,22 @@ extension SuperDelegate {
     // MARK: UIApplicationDelegate
     
     
-    @objc(application:continueUserActivity:restorationHandler:)
+//    @objc(application:continueUserActivity:restorationHandler:)
     final public func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Swift.Void) -> Bool {
         guard let userActivityCapableSelf = self as? UserActivityCapable else {
             noteImproperAPIUsage("Received continueUserActivity but \(self) does not conform to UserActivityCapable. Not handling user activity event.")
             return false
         }
-        
+
         guard launchOptionsUserActivity !== userActivity else {
             // Bail out. We've already processed this user activity.
             return true
         }
-        
+
         guard userActivityCapableSelf.canResume(userActivity: userActivity) else {
             return false
         }
-        
+
         return userActivityCapableSelf.resume(userActivity: userActivity, restorationHandler: restorationHandler)
     }
     
